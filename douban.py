@@ -8,10 +8,11 @@ import traceback
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+workspace = "/Users/lorabit/douban/" 
+imgPath = workspace+"images/"
+pagePath = workspace+"pages/"
+dbPath = workspace+"db"
 
-imgPath = "/Users/lorabit/douban/images/"
-pagePath = "/Users/lorabit/douban/pages/"
-dbPath = "/Users/lorabit/douban/db"
 refetchTime = 60*30
 
 def findByTag(h, sTag, eTag):

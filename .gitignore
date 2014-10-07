@@ -1,0 +1,5 @@
+images/*
+pages/*
+db
+*.pyc
+.DS_Store

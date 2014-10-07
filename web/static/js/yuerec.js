@@ -1,8 +1,10 @@
 var stop=true; 
+var msnry;
   $(function(){
-    $("#pList").scroll(function(){ 
-        totalheight =  parseFloat($("#pList").scrollTop())+parseFloat($("#pList").height()); 
-        if(totalheight>=parseFloat($("#pContainer").height())){
+    $(window).scroll(function(){ 
+
+        totalheight =  parseFloat($(window).scrollTop())+parseFloat($("body").height()); 
+        if(totalheight>=parseFloat($(document).height())){
             if(stop==true){
               stop = false;
               loadMore();
@@ -24,6 +26,19 @@ var stop=true;
         tid = $(this).parent().parent().data("tid");
         window.open('http://www.douban.com/group/topic/'+tid);
     });
+
+    $("#pList").imagesLoaded(function(){
+      // msnry = new Masonry( "#pList",{
+      //   itemSelector : '.pItem'
+      // } );
+      $("#pList").masonry({itemSelector : '.pItem'});
+    });
+
+    
+  });
+  $(document).ready(function(){
+
+
   });
 
   
