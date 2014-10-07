@@ -3,6 +3,7 @@ import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, json, send_file
 import settings
+import time
 
 
 
@@ -51,4 +52,4 @@ def teardown_request(exception):
         db.close()
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host = app.config['HOST'],port = app.config['PORT'])
