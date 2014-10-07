@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>{{keyword}} - 约推荐 － 豆瓣交友助手</title>
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/yuerec.js"></script>
+<script type="text/javascript">
+var keyword = '{{keyword}}';
+var sId = {{pList[-1][0]}};
+  function loadMore(){
+    $("#loading").show();
+    $.ajax({
+      url:'/search/'+keyword+'/loadMore/'+sId,
+      dataType:'JSON',
+      success:function(json){
+        for(i in json){
+          p = json[i];
+          if(p[0]<sId)
+            sId = p[0];
+          $("<div>").addClass('col-md-3 pItem').data('uid',p[4]).data('tid',p[2])
+            .append($("<img>").attr("src","/photo/"+p[1]))
+            .append('<div class="pTools"><span class="glyphicon glyphicon-trash"></span><span class="glyphicon glyphicon-heart"></span><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-link"></span></div>')
+            .append($("<div>").addClass("pLabel").text(p[3]))
+            .appendTo("#pContainer");
+        }
+        $("#loading").hide();
+
+        stop = true;
+      }
+    });
+  }
+
+</script>
+<style>
+	body{background: #333;overflow: hidden;}
+  #pList{height:calc(100% - 80px);overflow:scroll;}
+  .pItem{
+    height:40%;margin-bottom:10px;overflow:hidden;position:relative;
+  }
+  .pLabel{position:absolute;bottom:0px;height:20px;background: rgba(0,0,0,0.5);width:calc(100% - 30px);color:White;font-size:13px;line-height:20px;padding-left:10px;}
+  .pTools{position: absolute;top:0px;font-size: 16px;width:calc(100% - 30px);background: rgba(0,0,0,0.5);}
+  .pTools span{float:right;margin:5px;color:rgba(255,255,255,0.5);}
+  .pTools span:hover{float:right;margin:5px;color:rgba(255,255,255,1);}
+  .pItem img{width:100%;}
+  #loading{display: none;}
+  #pContainer{float:left;}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse" role="navigation">
+  		<div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">约推荐</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/">实时更新</a></li>
+        <li><a href="#">我要秀！</a></li>
+       
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="杭州" value="{{keyword}}" id="keyword">
+        </div>
+        <button type="button" class="btn btn-default" onclick="search()">坐标搜索</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">关于我们</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">用户信息 <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">登录</a></li>
+            <li><a href="#">注册</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+	</nav>
+  <div class="col-md-12" id="pList">
+    <div id="pContainer">
+    {% if pList%}
+      {% for p in pList%}
+        <div class="col-md-3 pItem" data-uid="{{p[4]}}" data-tid="{{p[2]}}">
+          <img src="/photo/{{p[1]}}"/>
+          <div class="pTools"><span class="glyphicon glyphicon-trash"></span><span class="glyphicon glyphicon-heart"></span><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-link"></span></div>
+          <div class="pLabel">{{p[3]}}</div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+  </div>
+  <div class="col-md-12" id="loading">Loading...</div>
+
+</body>
