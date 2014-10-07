@@ -4,6 +4,7 @@ import time
 import sqlite3
 import sys
 import time
+import traceback
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -117,6 +118,7 @@ while True:
 				h = h[h.find('<td nowrap="nowrap" class="time">'):]
 				aIndex = h.find('http://www.douban.com/group/topic/')
 		except:
+			traceback.print_exc()
 			print 'sleep for 60 seconds'
 			time.sleep(60)
 	print 'sleeping... safe to interupt'
