@@ -8,6 +8,7 @@ var stop=true;
               loadMore();
             }
         }
+        return true;
     });
 
     $("#pList").on("click",".pItem img",function(){
