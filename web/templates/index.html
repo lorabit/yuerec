@@ -34,6 +34,7 @@ var sId = {{pList[-1][0]}};
           $('#pList').masonry('appended', newItem);
          
         }
+         $('#pList').masonry('layout');
         $("#pList").imagesLoaded(function(){
           $('#pList').masonry('layout');
         });

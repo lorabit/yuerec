@@ -31,6 +31,7 @@ var sId = {{pList[-1][0]}};
           $('#pList').masonry('appended', newItem);
          
         }
+        $('#pList').masonry('layout');
         $("#pList").imagesLoaded(function(){
           $('#pList').masonry('layout');
         });
@@ -54,13 +55,13 @@ var sId = {{pList[-1][0]}};
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">约推荐</a>
+      <a class="navbar-brand" href="/">约推荐</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/">实时更新</a></li>
+        <li><a href="/">实时更新</a></li>
         <li><a href="#">我要秀！</a></li>
        
       </ul>
