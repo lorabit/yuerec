@@ -9,3 +9,4 @@ body{background: #333;overflow: scroll;height:100%;}
   .pTools span:hover{float:right;margin:5px;color:rgba(255,255,255,1);}
   .pItem img{width:100%;}
   #loading{display: none;color:White; text-align: center;}
+  .newAdded{display: none;}
