@@ -43,7 +43,7 @@ def saveResouce(url,path):
 def downloadImage(tid, url):
 	pid = url[url.rfind('/')+1:]
 	if cur.execute("select * from resouces where pid=?",(pid,)).fetchone()!=None:
-		cur.execute("update resouces set deleted = 0 where pid=?",(pid,))
+		cur.execute("update resouces set deleted = 0 where deleted=1 and pid=?",(pid,))
 		#print pid+' exists'
 		return
 	saveResouce(url, imgPath + pid)
@@ -83,7 +83,7 @@ def grabContent(url):
 	else:
 		cur.execute("update threads set updateTime = datetime('now','localtime') where id = ?", (old[0],));
 
-	cur.execute("update resouces set deleted = 1 where tid = ?;",(tid,));
+	cur.execute("update resouces set deleted = 1 where deleted = 0 and tid = ?;",(tid,));
 	con.commit()
 	h = content
 	imgIndex = h.find('<img src="')
