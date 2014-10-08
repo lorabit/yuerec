@@ -40,9 +40,10 @@ def searchLoadMore(keyword,id):
 	return json.dumps(pList)
 
 @app.route("/photo/<pid>/delete")
-def loadPhoto(pid):
+def deletePhoto(pid):
 	g.db.execute('update resouces set deleted = 2 where pid=?',(pid,));
-	return json.dumps({"msg"="success"})
+	g.db.commit()
+	return json.dumps({"msg":"success"})
 
 
 

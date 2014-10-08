@@ -30,6 +30,7 @@ var msnry;
 
     $("#pList").on("click",".glyphicon-trash",function(){
         pid = $(this).parent().parent().data("pid");
+        $(this).parent().parent().hide();
         $.ajax({
           url:'/photo/'+pid+"/delete",
           success:function(){
