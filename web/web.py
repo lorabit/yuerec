@@ -17,12 +17,12 @@ def connect_db():
 
 @app.route("/")
 def index():
-	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid order by resouces.id desc limit 20').fetchall()
+	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid where deleted=0 order by resouces.id desc limit 20').fetchall()
 	return render_template('index.html',pList = pList)
 
 @app.route("/loadMore/<id>")
 def loadMore(id):
-	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid where resouces.id<? order by resouces.id desc limit 20',(id,))
+	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid where resouces.id<? and deleted=0 order by resouces.id desc limit 20',(id,))
 	return json.dumps(pList.fetchall())
 
 @app.route("/photo/<pid>")
@@ -31,13 +31,18 @@ def loadPhoto(pid):
 
 @app.route("/search/<keyword>")
 def search(keyword):
-	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid where location like ? order by resouces.id desc limit 20',('%'+keyword+'%',)).fetchall()
+	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid where location like ? and deleted=0 order by resouces.id desc limit 20',('%'+keyword+'%',)).fetchall()
 	return render_template('search.html',pList = pList,keyword = keyword)
 
 @app.route("/search/<keyword>/loadMore/<id>")
 def searchLoadMore(keyword,id):
-	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid where resouces.id<? and location like ? order by resouces.id desc limit 20',(id,'%'+keyword+'%',)).fetchall()
+	pList = g.db.execute('select resouces.id,pid,resouces.tid,threads.location,uid from resouces left join threads on threads.tid = resouces.tid where resouces.id<? and location like ? and deleted=0 order by resouces.id desc limit 20',(id,'%'+keyword+'%',)).fetchall()
 	return json.dumps(pList)
+
+@app.route("/photo/<pid>/delete")
+def loadPhoto(pid):
+	g.db.execute('update resouces set deleted = 2 where pid=?',(pid,));
+	return json.dumps({"msg"="success"})
 
 
 

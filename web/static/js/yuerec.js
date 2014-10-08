@@ -27,6 +27,17 @@ var msnry;
         window.open('http://www.douban.com/group/topic/'+tid);
     });
 
+
+    $("#pList").on("click",".glyphicon-trash",function(){
+        pid = $(this).parent().parent().data("pid");
+        $.ajax({
+          url:'/photo/'+pid+"/delete",
+          success:function(){
+            $("#pList").masonry('remove',  $(this).parent().parent());
+          }
+        });
+    });
+
     $("#pList").imagesLoaded(function(){
       // msnry = new Masonry( "#pList",{
       //   itemSelector : '.pItem'
