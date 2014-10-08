@@ -35,6 +35,7 @@ var msnry;
           url:'/photo/'+pid+"/delete",
           success:function(){
             $("#pList").masonry('remove',  $(this).parent().parent());
+             $("#pList").masonry('layout');
           }
         });
     });
