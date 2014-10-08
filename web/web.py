@@ -54,14 +54,14 @@ def deletePhoto(pid):
 
 @app.route("/adv/<deleted>")
 def adv(deleted):
-	session["deleted"] = deleted;
-
+	session["deleted"] = int(deleted);
+	return redirect('/')
 
 
 @app.before_request
 def before_request():
     g.db = connect_db()
-    if session["deleted"]==None:
+    if session.has_key("deleted")==False:
     	session["deleted"] = 0
 
 @app.teardown_request
