@@ -4,7 +4,8 @@ from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash, json, send_file
 import settings
 import time
-
+import Image
+import os
 
 
 
@@ -27,7 +28,13 @@ def loadMore(id):
 
 @app.route("/photo/<pid>")
 def loadPhoto(pid):
-	return send_file('../images/'+pid, mimetype='image/jpg')
+	if os.path.exists('../images/w300'+pid)==False:
+		im = Image.open('../images/'+pid)
+		oW = im.size[0]
+		oH = im.size[1]
+		cim = im.resize((300,oH*300/oW))
+		cim.save('../images/w300'+pid)
+	return send_file('../images/w300'+pid, mimetype='image/jpg')
 
 @app.route("/search/<keyword>")
 def search(keyword):
