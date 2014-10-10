@@ -47,7 +47,7 @@ def downloadImage(tid, url):
 		#print pid+' exists'
 		return
 	saveResouce(url, imgPath + pid)
-	cur.execute("insert into resouces(tid,url,pid,updateTime) values(?,?,?,datetime('now','localtime'))",(tid,url,pid));
+	cur.execute("insert into resouces(tid,url,pid,updateTime,deleted) values(?,?,?,datetime('now','localtime'),0)",(tid,url,pid));
 
 def getUserLocation(uid):
 	url = 'http://www.douban.com/group/people/'+uid
