@@ -5,6 +5,8 @@ import sqlite3
 import sys
 import time
 import traceback
+from daemonize import Daemonize
+pid = "/tmp/douban.pid"
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
@@ -97,30 +99,34 @@ def grabContent(url):
 	#print content
 
 
-con = sqlite3.connect(dbPath)
-cur = con.cursor()
+def main():
+	con = sqlite3.connect(dbPath)
+	cur = con.cursor()
 
-while True:
-	monitoredUrls = ['http://www.douban.com/group/haixiuzu/discussion?start=0','http://www.douban.com/group/haixiuzu/discussion?start=25','http://www.douban.com/group/haixiuzu/discussion?start=50','http://www.douban.com/group/446091/discussion?start=0','http://www.douban.com/group/face2face/discussion?start=0']
-	for mainUrl in monitoredUrls:
-		try:
-			h = accessPage(mainUrl)
-			startIndex = h.find('<!--- douban ad end -->')
-			h = h[startIndex:]
-			endIndex = h.find('</table>')
-			h = h[:endIndex]
+	while True:
+		monitoredUrls = ['http://www.douban.com/group/haixiuzu/discussion?start=0','http://www.douban.com/group/haixiuzu/discussion?start=25','http://www.douban.com/group/haixiuzu/discussion?start=50','http://www.douban.com/group/446091/discussion?start=0','http://www.douban.com/group/face2face/discussion?start=0']
+		for mainUrl in monitoredUrls:
+			try:
+				h = accessPage(mainUrl)
+				startIndex = h.find('<!--- douban ad end -->')
+				h = h[startIndex:]
+				endIndex = h.find('</table>')
+				h = h[:endIndex]
 
-			aIndex = h.find('http://www.douban.com/group/topic/')
-			while aIndex!=-1:
-				h = h[aIndex:]
-				endIndex = h.find('"')
-				url = h[:endIndex]
-				grabContent(url)
-				h = h[h.find('<td nowrap="nowrap" class="time">'):]
 				aIndex = h.find('http://www.douban.com/group/topic/')
-		except:
-			traceback.print_exc()
-			print 'sleep for 60 seconds'
-			time.sleep(60)
-	print 'sleeping... safe to interupt'
-	time.sleep(15)
+				while aIndex!=-1:
+					h = h[aIndex:]
+					endIndex = h.find('"')
+					url = h[:endIndex]
+					grabContent(url)
+					h = h[h.find('<td nowrap="nowrap" class="time">'):]
+					aIndex = h.find('http://www.douban.com/group/topic/')
+			except:
+				traceback.print_exc()
+				print 'sleep for 60 seconds'
+				time.sleep(60)
+		print 'sleeping... safe to interupt'
+		time.sleep(15)
+
+daemon = Daemonize(app="douban_app", pid=pid, action=main)
+daemon.start()
