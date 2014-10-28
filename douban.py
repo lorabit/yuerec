@@ -128,5 +128,6 @@ def main():
 		print 'sleeping... safe to interupt'
 		time.sleep(15)
 
-daemon = Daemonize(app="douban_app", pid=pid, action=main)
-daemon.start()
+main()
+#daemon = Daemonize(app="douban_app", pid=pid, action=main)
+#daemon.start()
