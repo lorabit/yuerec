@@ -99,9 +99,10 @@ def grabContent(url):
 	#print content
 
 
+con = sqlite3.connect(dbPath)
+cur = con.cursor()
+	
 def main():
-	con = sqlite3.connect(dbPath)
-	cur = con.cursor()
 
 	while True:
 		monitoredUrls = ['http://www.douban.com/group/haixiuzu/discussion?start=0','http://www.douban.com/group/haixiuzu/discussion?start=25','http://www.douban.com/group/haixiuzu/discussion?start=50','http://www.douban.com/group/446091/discussion?start=0','http://www.douban.com/group/face2face/discussion?start=0']
