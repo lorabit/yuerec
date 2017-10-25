@@ -3,7 +3,7 @@
 You would be able to watch interesting photos that were posted on Douban but deleted later by manager or the their own posters with this tiny tool. Use it on your own risk and judgement. 
 
 # Setup
-##Requirements
+## Requirements
 python 2.7
 
 sqlite3
